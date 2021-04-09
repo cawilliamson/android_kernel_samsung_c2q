@@ -230,7 +230,7 @@ void sde_setup_dspp_pccv4(struct sde_hw_dspp *ctx, void *cfg)
 	struct drm_msm_pcc *pcc_cfg;
 	struct drm_msm_pcc_coeff *coeffs = NULL;
 	int i = 0;
-	int __maybe_unused kcal_min = 20;
+	int kcal_min = 20;
 	u32 base = 0;
 	u32 opcode = 0, local_opcode = 0;
 
@@ -238,6 +238,13 @@ void sde_setup_dspp_pccv4(struct sde_hw_dspp *ctx, void *cfg)
 		DRM_ERROR("invalid param ctx %pK cfg %pK\n", ctx, cfg);
 		return;
 	}
+
+	if (kcal_red < kcal_min)
+                kcal_red = kcal_min;
+        if (kcal_green < kcal_min)
+                kcal_green = kcal_min;
+        if (kcal_blue < kcal_min)
+                kcal_blue = kcal_min;
 
 	if (!hw_cfg->payload) {
 		DRM_DEBUG_DRIVER("disable pcc feature\n");
@@ -345,13 +352,6 @@ void sde_setup_dspp_ltm_threshv1(struct sde_hw_dspp *ctx, void *cfg)
 		DRM_ERROR("invalid parameters ctx %pK cfg %pK\n", ctx, cfg);
 		return;
 	}
-
-	if (kcal_red < kcal_min)
-		kcal_red = kcal_min;
-	if (kcal_green < kcal_min)
-		kcal_green = kcal_min;
-	if (kcal_blue < kcal_min)
-		kcal_blue = kcal_min;
 
 	if (!hw_cfg->payload) {
 		DRM_ERROR("invalid payload parameters for ltm thresh param\n");
