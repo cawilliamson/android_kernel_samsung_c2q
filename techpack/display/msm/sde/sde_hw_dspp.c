@@ -41,7 +41,7 @@ static void dspp_igc(struct sde_hw_dspp *c)
 	int ret = 0;
 
 	if (c->cap->sblk->igc.version == SDE_COLOR_PROCESS_VER(0x3, 0x1)) {
-		ret = reg_dmav1_init_dspp_op_v4(SDE_DSPP_IGC, c->idx);
+		ret = 1; // reg_dmav1_init_dspp_op_v4(i, c->idx); use the sde one instead, with correct hsic settings possibilities
 		if (!ret)
 			c->ops.setup_igc = reg_dmav1_setup_dspp_igcv31;
 		else
