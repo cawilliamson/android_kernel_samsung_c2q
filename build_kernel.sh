@@ -28,5 +28,5 @@ make -j$(nproc --all) -C $(pwd) \
   CLANG_TRIPLE=$CLANG_TRIPLE
 
 cp -v \
-  out/arch/arm64/boot/Image \
-  $(pwd)/arch/arm64/boot/Image
+  out/arch/arm64/boot/Image-dtb \
+  $(pwd)/arch/arm64/boot/Image-dtb
