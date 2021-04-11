@@ -8,7 +8,7 @@ PLATFORM_VERSION=11
 export ANDROID_MAJOR_VERSION PLATFORM_VERSION
 
 BUILD_CROSS_COMPILE="/opt/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-KERNEL_LLVM_BIN="/opt/qcom-clang-8/bin/clang"
+KERNEL_LLVM_BIN="/opt/qcom-clang/bin/clang"
 CLANG_TRIPLE="aarch64-linux-gnu-"
 KERNEL_MAKE_ENV="DTC_EXT=$(pwd)/tools/dtc CONFIG_BUILD_ARM64_DT_OVERLAY=y"
 
