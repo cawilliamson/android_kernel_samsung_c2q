@@ -204,7 +204,25 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 	new_value = !!new_value;
 
 	old_value = enforcing_enabled(state);
-	@@ -182,6 +226,8 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
+	if (new_value != selinux_enforcing) { // SEC_SELINUX_PORTING_COMMON Change to use RKP 
+		length = avc_has_perm(&selinux_state,
+				      current_sid(), SECINITSID_SECURITY,
+				      SECCLASS_SECURITY, SECURITY__SETENFORCE,
+				      NULL);
+		if (length)
+			goto out;
+		audit_log(audit_context(), GFP_KERNEL, AUDIT_MAC_STATUS,
+			"enforcing=%d old_enforcing=%d auid=%u ses=%u"
+			" enabled=%d old-enabled=%d lsm=selinux res=1",
+			new_value, selinux_enforcing, // SEC_SELINUX_PORTING_COMMON Change to use RKP 
+			from_kuid(&init_user_ns, audit_get_loginuid(current)),
+			audit_get_sessionid(current),
+			selinux_enabled, selinux_enabled);
+		enforcing_set(state, new_value);
+		if (new_value)
+			avc_ss_reset(state->avc, 0);
+		selnl_notify_setenforce(new_value);
+		selinux_status_update_setenforce(state, new_value);
 		if (!new_value)
 			call_lsm_notifier(LSM_POLICY_CHANGE, NULL);
 	}
