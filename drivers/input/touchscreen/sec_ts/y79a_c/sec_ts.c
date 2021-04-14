@@ -12,6 +12,10 @@
 
 #include "sec_ts.h"
 
+#ifndef CONFIG_SEC_DEBUG_TSP_LOG
+#include <linux/proc_fs.h>
+#endif
+
 struct sec_ts_data *tsp_info;
 
 #ifdef USE_POWER_RESET_WORK
@@ -103,7 +107,7 @@ static ssize_t secure_touch_enable_store(struct device *dev,
 		}
 
 		sec_ts_delay(200);
-		
+
 		/* syncronize_irq -> disable_irq + enable_irq
 		 * concern about timing issue.
 		 */
@@ -820,7 +824,7 @@ static void sec_ts_sponge_dump_flush(struct sec_ts_data *ts, int dump_area)
 		sec_spg_dat[0] = ts->sponge_dump_border_lsb;
 		sec_spg_dat[1] = ts->sponge_dump_border_msb;
 	}
-	
+
 	/* dump all events at once */
 	ret = ts->sec_ts_read_sponge(ts, sec_spg_dat, ts->sponge_dump_event * ts->sponge_dump_format);
 	if (ret < 0) {
@@ -841,7 +845,7 @@ static void sec_ts_sponge_dump_flush(struct sec_ts_data *ts, int dump_area)
 
 		if (edata[0] || edata[1] || edata[2] || edata[3] || edata[4]) {
 			snprintf(buff, sizeof(buff), "%03d: %04x%04x%04x%04x%04x\n",
-					i + (ts->sponge_dump_event * dump_area), 
+					i + (ts->sponge_dump_event * dump_area),
 					edata[0], edata[1], edata[2], edata[3], edata[4]);
 #ifdef CONFIG_SEC_DEBUG_TSP_LOG
 			sec_tsp_sponge_log(buff);
@@ -2106,7 +2110,7 @@ static void sec_ts_init_proc(struct sec_ts_data *ts)
 	ts->cmoffset_main_proc = kzalloc(ts->proc_cmoffset_size, GFP_KERNEL);
 	if (!ts->cmoffset_main_proc)
 		goto err_alloc_main;
-	
+
 	ts->miscal_proc= kzalloc(ts->proc_cmoffset_size, GFP_KERNEL);
 	if (!ts->miscal_proc)
 		goto err_alloc_miscal;
