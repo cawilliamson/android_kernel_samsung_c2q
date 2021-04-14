@@ -752,7 +752,7 @@ static ssize_t get_lp_dump(struct device *dev, struct device_attribute *attr, ch
 			int e_offset = i * ts->sponge_dump_format;
 			char ibuff[30] = {0, };
 			u16 edata[5];
-			
+
 			edata[0] = (sec_spg_dat[1 + e_offset] & 0xFF) << 8 | (sec_spg_dat[0 + e_offset] & 0xFF);
 			edata[1] = (sec_spg_dat[3 + e_offset] & 0xFF) << 8 | (sec_spg_dat[2 + e_offset] & 0xFF);
 			edata[2] = (sec_spg_dat[5 + e_offset] & 0xFF) << 8 | (sec_spg_dat[4 + e_offset] & 0xFF);
@@ -763,7 +763,9 @@ static ssize_t get_lp_dump(struct device *dev, struct device_attribute *attr, ch
 				snprintf(ibuff, sizeof(ibuff), "%03d: %04x%04x%04x%04x%04x\n",
 						i + (ts->sponge_dump_event * dump_area),
 						edata[0], edata[1], edata[2], edata[3], edata[4]);
+#ifdef CONFIG_SEC_DEBUG_TSP_LOG
 				sec_tsp_sponge_log(ibuff);
+#endif
 			}
 		}
 
