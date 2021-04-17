@@ -1475,7 +1475,7 @@ int qpnp_get_s2_reset_onoff(void)
 EXPORT_SYMBOL(qpnp_get_s2_reset_onoff);
 #endif
 
-#if defined(CONFIG_SEC_PM)
+#ifdef CONFIG_SEC_PM_DEBUG
 static int
 qpnp_control_s2_reset(struct qpnp_pon *pon, struct qpnp_pon_config *cfg, int on)
 {
@@ -1496,7 +1496,9 @@ qpnp_control_s2_reset(struct qpnp_pon *pon, struct qpnp_pon_config *cfg, int on)
 
 	return 0;
 }
+#endif /* CONFIG_SEC_PM_DEBUG */
 
+#ifdef CONFIG_SEC_PM
 int qpnp_set_resin_wk_int(int en)
 {
 	struct qpnp_pon *pon = sys_reset_dev;
