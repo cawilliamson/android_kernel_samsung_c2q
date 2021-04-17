@@ -642,7 +642,7 @@ static irqreturn_t mdm_status_change(int irq, void *dev_id)
 		esoc_clink_evt_notify(ESOC_BOOT_STATE, esoc);
 #ifdef CONFIG_CORESIGHT_CTI
 		mdm_trigger_dbg(mdm);
-#endif CONFIG_CORESIGHT_CTI
+#endif /* CONFIG_CORESIGHT_CTI */
 		queue_work(mdm->mdm_queue, &mdm->mdm_status_work);
 		if (mdm->get_restart_reason)
 			queue_work(mdm->mdm_queue, &mdm->restart_reason_work);
@@ -669,7 +669,7 @@ static irqreturn_t mdm_pblrdy_change(int irq, void *dev_id)
 		mdm->init = 0;
 #ifdef CONFIG_CORESIGHT_CTI
 		mdm_trigger_dbg(mdm);
-#endif
+#endif /* CONFIG_CORESIGHT_CTI */
 		esoc_clink_queue_request(ESOC_REQ_IMG, esoc);
 		return IRQ_HANDLED;
 	}
