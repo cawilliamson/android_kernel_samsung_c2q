@@ -1172,7 +1172,7 @@ static int s2dos05_pmic_resume(struct device *dev)
 
 	pr_info("%s adc_mode : %d\n", __func__, s2dos05->adc_mode);
 	if (s2dos05->adc_mode > 0) {
-		int ret = s2dos05_update_reg(s2dos05->i2c, S2DOS05_REG_PWRMT_CTRL2,
+		int __maybe_unused ret = s2dos05_update_reg(s2dos05->i2c, S2DOS05_REG_PWRMT_CTRL2,
 				s2dos05->adc_en_val & 0x80, ADC_EN_MASK);
 #ifdef CONFIG_SEC_PM_DEBUG
 		if (ret < 0)
