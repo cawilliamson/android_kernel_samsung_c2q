@@ -96,8 +96,11 @@ struct msm_pinctrl {
 static struct msm_pinctrl *msm_pinctrl_data;
 #ifdef CONFIG_SEC_PM
 static int total_pin_count = 0;
-static int msm_gpio_chip_base = 0;
 #endif /* CONFIG_SEC_PM */
+
+#ifdef CONFIG_SEC_PM_DEBUG
+static int msm_gpio_chip_base = 0;
+#endif /* CONFIG_SEC_PM_DEBUG */
 
 static int msm_get_groups_count(struct pinctrl_dev *pctldev)
 {
