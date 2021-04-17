@@ -42,11 +42,10 @@
 
 #ifdef CONFIG_SEC_PM
 #include <linux/sec-pinmux.h>
-#endif
-
-#if defined(CONFIG_SEC_PM_DEBUG) && defined(CONFIG_SEC_GPIO_DVS)
+#ifdef CONFIG_SEC_GPIO_DVS
 #include <linux/secgpio_dvs.h>
-#endif /* CONFIG_SEC_PM_DEBUG & CONFIG_SEC_GPIO_DVS */
+#endif /* CONFIG_SEC_GPIO_DVS */
+#endif /* CONFIG_SEC_PM */
 
 #define MAX_NR_GPIO 300
 #define PS_HOLD_OFFSET 0x820
@@ -96,11 +95,8 @@ struct msm_pinctrl {
 static struct msm_pinctrl *msm_pinctrl_data;
 #ifdef CONFIG_SEC_PM
 static int total_pin_count = 0;
-#endif /* CONFIG_SEC_PM */
-
-#ifdef CONFIG_SEC_PM_DEBUG
 static int msm_gpio_chip_base = 0;
-#endif /* CONFIG_SEC_PM_DEBUG */
+#endif /* CONFIG_SEC_PM */
 
 static int msm_get_groups_count(struct pinctrl_dev *pctldev)
 {
@@ -552,7 +548,7 @@ static void msm_gpio_set(struct gpio_chip *chip, unsigned offset, int value)
 	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
 }
 
-#ifdef CONFIG_SEC_PM_DEBUG
+#ifdef CONFIG_SEC_PM
 int get_msm_gpio_chip_base(void)
 {
 	return msm_gpio_chip_base;
@@ -663,9 +659,6 @@ int msm_gp_get_value(struct gpio_chip *chip, uint pin_no, int in_out_type)
 	return 0;
 }
 
-#endif /* CONFIG_SEC_PM_DEBUG */
-
-#ifdef CONFIG_SEC_PM
 bool msm_gpio_is_valid(int gpionum)
 {
 	if (gpionum < 0 || gpionum >= total_pin_count)
