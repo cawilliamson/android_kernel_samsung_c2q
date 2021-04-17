@@ -94,10 +94,10 @@ struct msm_pinctrl {
 };
 
 static struct msm_pinctrl *msm_pinctrl_data;
-#ifdef CONFIG_SEC_PM_DEBUG
+#ifdef CONFIG_SEC_PM
 static int total_pin_count = 0;
 static int msm_gpio_chip_base = 0;
-#endif /* CONFIG_SEC_PM_DEBUG */
+#endif /* CONFIG_SEC_PM */
 
 static int msm_get_groups_count(struct pinctrl_dev *pctldev)
 {
@@ -1839,9 +1839,9 @@ int msm_pinctrl_probe(struct platform_device *pdev,
 	pctrl->desc.name = dev_name(&pdev->dev);
 	pctrl->desc.pins = pctrl->soc->pins;
 	pctrl->desc.npins = pctrl->soc->npins;
-#ifdef CONFIG_SEC_PM_DEBUG
+#ifdef CONFIG_SEC_PM
 	total_pin_count = pctrl->desc.npins;
-#endif /* CONFIG_SEC_PM_DEBUG */
+#endif /* CONFIG_SEC_PM */
 
 	pctrl->pctrl = devm_pinctrl_register(&pdev->dev, &pctrl->desc, pctrl);
 	if (IS_ERR(pctrl->pctrl)) {
