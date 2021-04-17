@@ -659,6 +659,9 @@ int msm_gp_get_value(struct gpio_chip *chip, uint pin_no, int in_out_type)
 	return 0;
 }
 
+#endif /* CONFIG_SEC_PM_DEBUG */
+
+#ifdef CONFIG_SEC_PM
 bool msm_gpio_is_valid(int gpionum)
 {
 	if (gpionum < 0 || gpionum >= total_pin_count)
@@ -681,7 +684,7 @@ bool msm_gpio_is_valid(int gpionum)
 
 	return 1;
 }
-#endif /* CONFIG_SEC_PM_DEBUG */
+#endif /* CONFIG_SEC_PM */
 
 #ifdef CONFIG_DEBUG_FS
 #include <linux/seq_file.h>
