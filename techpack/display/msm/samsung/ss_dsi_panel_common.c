@@ -2825,8 +2825,9 @@ int ss_panel_off_pre(struct samsung_display_driver_data *vdd)
 {
 #ifdef CONFIG_SEC_DEBUG
 	int rddpm, rddsm, errfg, dsierror, protocol_err;
+#endif /* CONFIG_SEC_DEBUG */
 	int ret = 0;
-
+#ifdef CONFIG_SEC_DEBUG
 	LCD_INFO("[DISPLAY_%d] +\n", vdd->ndx);
 	rddpm = ss_read_rddpm(vdd);
 	rddsm = ss_read_rddsm(vdd);
@@ -2836,7 +2837,7 @@ int ss_panel_off_pre(struct samsung_display_driver_data *vdd)
 	ss_read_pps_data(vdd);
 	SS_XLOG(rddpm, rddsm, errfg, dsierror);
 	LCD_INFO("panel dbg: %x %x %x %x %x\n", rddpm, rddsm, errfg, dsierror, protocol_err);
-#endif
+#endif /* CONFIG_SEC_DEBUG */
 
 	if (ss_is_esd_check_enabled(vdd)) {
 		vdd->esd_recovery.is_wakeup_source = false;
@@ -8005,11 +8006,13 @@ void ss_panel_init(struct dsi_panel *panel)
 	vdd->msm_private = panel;
 	list_add(&vdd->vdd_list, &vdds_list);
 
+#ifdef CONFIG_SEC_DEBUG
 	if (ss_panel_debug_init(vdd))
 		LCD_ERR("Fail to create debugfs\n");
 
 	if (ss_smmu_debug_init(vdd))
 		LCD_ERR("Fail to create smmu debug\n");
+#endif
 
 	mutex_init(&vdd->vdd_lock);
 	mutex_init(&vdd->cmd_lock);
