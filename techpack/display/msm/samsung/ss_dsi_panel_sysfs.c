@@ -2384,9 +2384,8 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 		(struct samsung_display_driver_data *)dev_get_drvdata(dev);
 	int input;
 
-	int rddpm, rddsm;
 #ifdef CONFIG_SEC_DEBUG
-	int dsierror, errfg;
+	int rddpm, rddsm, dsierror, errfg;
 	struct dsi_panel *panel;
 #endif /* CONFIG_SEC_DEBUG */
 
