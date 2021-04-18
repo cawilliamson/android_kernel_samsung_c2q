@@ -3811,7 +3811,7 @@ static int _sde_crtc_vblank_enable_no_lock(
 	struct drm_encoder *enc;
 
 	if (!sde_crtc) {
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x1111);
 #endif
 		SDE_ERROR("invalid crtc\n");
@@ -3829,7 +3829,7 @@ static int _sde_crtc_vblank_enable_no_lock(
 		mutex_lock(&sde_crtc->crtc_lock);
 		if (ret < 0)
 		{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 			SS_XLOG_VSYNC(0x2222);
 #endif
 			return ret;
@@ -5004,7 +5004,7 @@ int sde_crtc_vblank(struct drm_crtc *crtc, bool en)
 
 	if (!crtc) {
 		SDE_ERROR("invalid crtc\n");
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x1111);
 #endif
 		return -EINVAL;
