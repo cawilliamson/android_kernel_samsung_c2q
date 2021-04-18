@@ -25,13 +25,13 @@
 #include "sde_rotator_smmu.h"
 #include "sde_rotator_debug.h"
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
+#if defined(CONFIG_DISPLAY_SAMSUNG)
 #include <linux/delay.h>
+#ifdef CONFIG_SEC_DEBUG
 #include "../msm/samsung/ss_dsi_panel_debug.h"
-
 #include <linux/sec_debug.h>
-
-#endif
+#endif /* CONFIG_SEC_DEBUG */
+#endif /* CONFIG_DISPLAY_SAMSUNG */
 
 #define SMMU_SDE_ROT_SEC	"qcom,smmu_sde_rot_sec"
 #define SMMU_SDE_ROT_UNSEC	"qcom,smmu_sde_rot_unsec"

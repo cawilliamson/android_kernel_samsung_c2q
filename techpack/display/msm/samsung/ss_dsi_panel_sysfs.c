@@ -2411,6 +2411,7 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 		}
 	}
 
+#ifdef CONFIG_SEC_DEBUG
 	/* C1 FA9 sometimes cannot turn off MCD mode, and keep black screen..
 	 * To debug this, read DDI dbg registers in evenry MCD setting, temporally..
 	 */
@@ -2423,6 +2424,7 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 
 		LCD_INFO("panel dbg before mcd: %x %x %x %x\n", rddpm, rddsm, errfg, dsierror);
 	}
+#endif /* CONFIG_SEC_DEBUG */
 
 	if (input)
 		ss_send_cmd(vdd, TX_MCD_ON);
@@ -2432,9 +2434,11 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 	if (vdd->panel_func.samsung_mcd_etc)
 		vdd->panel_func.samsung_mcd_etc(vdd, input);
 
+#ifdef CONFIG_SEC_DEBUG
 	/* C1 FA9 sometimes cannot turn off MCD mode, and keep black screen..
 	 * To debug this, read DDI dbg registers in evenry MCD setting, temporally..
 	 */
+
 	if (panel && !strcmp(panel->name, "ss_dsi_panel_S6E3FA9_AMB667UM01_FHD")) {
 		rddpm = ss_read_rddpm(vdd);
 		rddsm = ss_read_rddsm(vdd);
@@ -2443,7 +2447,7 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 
 		LCD_INFO("panel dbg after mcd: %x %x %x %x\n", rddpm, rddsm, errfg, dsierror);
 	}
-
+#endif /* CONFIG_SEC_DEBUG */
 end:
 	return size;
 }
