@@ -25,7 +25,7 @@
 #include "sde_rotator_smmu.h"
 #include "sde_rotator_debug.h"
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 #include <linux/delay.h>
 #include "../msm/samsung/ss_dsi_panel_debug.h"
 

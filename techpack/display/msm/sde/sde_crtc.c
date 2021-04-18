@@ -42,7 +42,7 @@
 #include "sde_core_perf.h"
 #include "sde_trace.h"
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 #include "ss_dsi_panel_debug.h"
 #endif
 

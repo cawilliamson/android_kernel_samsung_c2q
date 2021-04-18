@@ -60,11 +60,8 @@
 #define CREATE_TRACE_POINTS
 #include "sde_trace.h"
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 #include <linux/sec_debug.h>
-#endif
-
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
 #include "ss_dsi_panel_debug.h"
 #endif
 

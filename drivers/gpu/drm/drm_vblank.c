@@ -383,7 +383,7 @@ out:
 	spin_unlock_irqrestore(&dev->vblank_time_lock, irqflags);
 }
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 #include "../../../techpack/display/msm/samsung/ss_dsi_panel_debug.h"
 #endif
 
