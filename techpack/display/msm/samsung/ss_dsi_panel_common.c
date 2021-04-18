@@ -2391,10 +2391,10 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 #ifdef CONFIG_SEC_DEBUG
 	if (vdd->fw_up.is_support)
 		ss_read_fw_up_debug_partition();
-#endif
 
 	if (!ss_panel_attach_get(vdd)) {
 		ss_read_fw_up_debug_partition();
+#endif
 #if defined(CONFIG_PANEL_S6TUUM3_AMSA24VU01_WQXGA)
 		BUG_ON(1);
 #endif
