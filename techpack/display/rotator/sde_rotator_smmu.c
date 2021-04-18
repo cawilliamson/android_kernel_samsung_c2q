@@ -365,7 +365,7 @@ int sde_smmu_map_dma_buf(struct dma_buf *dma_buf,
 	*iova = table->sgl->dma_address;
 	*size = table->sgl->dma_length;
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 	if (sec_debug_is_enabled())
 		ss_smmu_debug_map(SMMU_NRT_ROTATOR_DEBUG, table);
 #endif
@@ -383,7 +383,7 @@ void sde_smmu_unmap_dma_buf(struct sg_table *table, int domain,
 		return;
 	}
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 	if (sec_debug_is_enabled())
 		ss_smmu_debug_unmap(SMMU_NRT_ROTATOR_DEBUG, table);
 #endif
@@ -514,7 +514,7 @@ static int sde_smmu_fault_handler(struct iommu_domain *domain,
 			iova, flags);
 	SDEROT_ERR("SMMU device:%s", sde_smmu->dev->kobj.name);
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 	ss_smmu_debug_log();
 #endif
 
