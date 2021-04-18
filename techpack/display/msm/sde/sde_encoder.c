@@ -3853,7 +3853,7 @@ void sde_encoder_register_vblank_callback(struct drm_encoder *drm_enc,
 
 	if (!drm_enc) {
 		SDE_ERROR("invalid encoder\n");
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x1111);
 #endif
 		return;
