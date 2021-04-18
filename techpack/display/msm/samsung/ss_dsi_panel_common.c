@@ -2394,13 +2394,13 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 
 	if (!ss_panel_attach_get(vdd)) {
 		ss_read_fw_up_debug_partition();
-#endif /* CONFIG_SEC_DEBUG */
 #if defined(CONFIG_PANEL_S6TUUM3_AMSA24VU01_WQXGA)
 		BUG_ON(1);
 #endif
 		LCD_ERR("ss_panel_attach_get NG\n");
 		return false;
 	}
+#endif /* CONFIG_SEC_DEBUG */
 	if (vdd->mipi_header_modi) {
 		LCD_INFO("2808 panel skip on_pre\n");
 		return true;
