@@ -2388,8 +2388,10 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 		vdd->other_line_panel_work_cnt = 0; /*stop open otherline dat file*/
 
 	/* Print debug data : fw up fail info */
+#ifdef CONFIG_SEC_DEBUG
 	if (vdd->fw_up.is_support)
 		ss_read_fw_up_debug_partition();
+#endif
 
 	if (!ss_panel_attach_get(vdd)) {
 		ss_read_fw_up_debug_partition();
