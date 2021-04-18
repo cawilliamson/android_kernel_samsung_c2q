@@ -341,7 +341,9 @@ skip_call_handle_vblank_virt:
 
 			if (cnt[ndx] == 1) {
 				LCD_INFO("VRR: teirq: %d, %d\n", prev_fps[ndx], fps);
+#ifdef CONFIG_SEC_DEBUG
 				SS_XLOG(prev_fps[ndx], fps);
+#endif
 			}
 
 			if (vdd->vrr.running_vrr)
@@ -598,12 +600,14 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 			frame_event);
 
 #if defined(CONFIG_DISPLAY_SAMSUNG)
+#ifdef CONFIG_SEC_DEBUG
 	SS_XLOG(cmd_enc->pp_timeout_report_cnt);
+#endif /* CONFIG_SEC_DEBUG */
 
 	phys_enc->sde_kms->base.funcs->ss_callback(conn->index, SS_EVENT_CHECK_TE, NULL);
 	inc_dpui_u32_field(DPUI_KEY_QCT_PPTO, 1);
 
-
+#ifdef CONFIG_SEC_DEBUG
 	if (sec_debug_is_enabled()) {
 		/* Debug Level MID or HIGH */
 		SDE_ERROR_CMDENC(cmd_enc,
@@ -615,6 +619,7 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 		SDE_EVT32(DRMID(phys_enc->parent), SDE_EVTLOG_FATAL);
 		SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus", "panic");
 	}
+#endif /* CONFIG_SEC_DEBUG */
 
 	pr_err("%s: pp_timeout_report_cnt: %d\n", __func__, cmd_enc->pp_timeout_report_cnt);
 	if (cmd_enc->pp_timeout_report_cnt < 10) {
@@ -623,7 +628,7 @@ static int _sde_encoder_phys_cmd_handle_ppdone_timeout(
 		pr_err("%s: ignore pp & phy_hw_reset\n", __func__);
 		goto exit;
 	}
-#endif
+#endif /* CONFIG_DISPLAY_SAMSUNG */
 
 	/* check if panel is still sending TE signal or not */
 	if (sde_connector_esd_status(phys_enc->connector))
@@ -962,7 +967,7 @@ static int sde_encoder_phys_cmd_control_vblank_irq(
 	SDE_EVT32(DRMID(phys_enc->parent), phys_enc->hw_pp->idx - PINGPONG_0,
 			enable, refcount);
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(enable, refcount);
 #endif
 
@@ -986,7 +991,7 @@ end:
 		SDE_EVT32(DRMID(phys_enc->parent),
 				phys_enc->hw_pp->idx - PINGPONG_0,
 				enable, refcount, SDE_EVTLOG_ERROR);
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0xbad, enable, refcount, ret);
 #endif
 	}
