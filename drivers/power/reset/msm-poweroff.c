@@ -534,10 +534,10 @@ static void msm_restart_prepare(const char *cmd)
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_BOOTLOADER);
 			__raw_writel(0x77665500, restart_reason);
- 		} else if (!strncmp(cmd, "recovery-update", 15)) { 
- 			qpnp_pon_set_restart_reason( 
- 				PON_RESTART_REASON_RECOVERY_UPDATE); 
- 			__raw_writel(0x776655cc, restart_reason); 
+ 		} else if (!strncmp(cmd, "recovery-update", 15)) {
+ 			qpnp_pon_set_restart_reason(
+ 				PON_RESTART_REASON_RECOVERY_UPDATE);
+ 			__raw_writel(0x776655cc, restart_reason);
 		} else if (!strncmp(cmd, "recovery", 8)) {
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_RECOVERY);
@@ -558,10 +558,12 @@ static void msm_restart_prepare(const char *cmd)
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_KEYS_CLEAR);
 			__raw_writel(0x7766550a, restart_reason);
+#ifdef CONFIG_SEC_DEBUG
 		} else if (!strncmp(cmd, "cross_fail", 10)) {
 			qpnp_pon_set_restart_reason(
 				PON_RESTART_REASON_CROSS_FAIL);
 			__raw_writel(0x7766550c, restart_reason);
+#endif
 #ifdef CONFIG_SEC_PERIPHERAL_SECURE_CHK
 		} else if (!strcmp(cmd, "peripheral_hw_reset")) {
 			qpnp_pon_set_restart_reason(
