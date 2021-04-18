@@ -2823,11 +2823,11 @@ int ss_panel_on_post(struct samsung_display_driver_data *vdd)
 
 int ss_panel_off_pre(struct samsung_display_driver_data *vdd)
 {
+#ifdef CONFIG_SEC_DEBUG
 	int rddpm, rddsm, errfg, dsierror, protocol_err;
 	int ret = 0;
 
 	LCD_INFO("[DISPLAY_%d] +\n", vdd->ndx);
-#ifdef CONFIG_SEC_DEBUG
 	rddpm = ss_read_rddpm(vdd);
 	rddsm = ss_read_rddsm(vdd);
 	errfg = ss_read_errfg(vdd);
