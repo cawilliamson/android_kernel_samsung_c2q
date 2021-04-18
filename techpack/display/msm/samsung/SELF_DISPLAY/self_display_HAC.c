@@ -265,7 +265,9 @@ static int self_display_debug(struct samsung_display_driver_data *vdd)
 			vdd->self_disp.debug.MEM_SUM_O,
 			vdd->self_disp.debug.SM_SUM_O);
 
+#ifdef CONFIG_SEC_DEBUG
 		SS_XLOG(vdd->self_disp.debug.SM_SUM_O);
+#endif
 
 		if (vdd->self_disp.operation[FLAG_SELF_MASK].img_checksum !=
 					vdd->self_disp.debug.SM_SUM_O) {
