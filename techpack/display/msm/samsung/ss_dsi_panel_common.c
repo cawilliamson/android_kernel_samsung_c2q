@@ -467,7 +467,9 @@ static void ss_check_te(struct samsung_display_driver_data *vdd)
 		}
 		if (te_count == te_max) {
 			LCD_ERR("LDI doesn't generate TE");
+#ifdef CONFIG_SEC_DEBUG
 			SS_XLOG(0xbad);
+#endif
 			inc_dpui_u32_field(DPUI_KEY_QCT_NO_TE, 1);
 		}
 	} else
@@ -2483,6 +2485,7 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 
 	/* Read panel status to check panel is ok from bootloader */
 	if (!vdd->read_panel_status_from_lk) {
+#ifdef CONFIG_SEC_DEBUG
 		int rddpm, rddsm, errfg, dsierror, protocol_err;
 
 		rddpm = ss_read_rddpm(vdd);
@@ -2494,7 +2497,7 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 
 		SS_XLOG(rddpm, rddsm, errfg, dsierror);
 		LCD_INFO("panel dbg: %x %x %x %x %x\n", rddpm, rddsm, errfg, dsierror, protocol_err);
-
+#endif
 		vdd->read_panel_status_from_lk = 1;
 	}
 
@@ -2822,6 +2825,7 @@ int ss_panel_off_pre(struct samsung_display_driver_data *vdd)
 	int ret = 0;
 
 	LCD_INFO("[DISPLAY_%d] +\n", vdd->ndx);
+#ifdef CONFIG_SEC_DEBUG
 	rddpm = ss_read_rddpm(vdd);
 	rddsm = ss_read_rddsm(vdd);
 	errfg = ss_read_errfg(vdd);
@@ -2830,6 +2834,7 @@ int ss_panel_off_pre(struct samsung_display_driver_data *vdd)
 	ss_read_pps_data(vdd);
 	SS_XLOG(rddpm, rddsm, errfg, dsierror);
 	LCD_INFO("panel dbg: %x %x %x %x %x\n", rddpm, rddsm, errfg, dsierror, protocol_err);
+#endif
 
 	if (ss_is_esd_check_enabled(vdd)) {
 		vdd->esd_recovery.is_wakeup_source = false;
@@ -2890,7 +2895,9 @@ int ss_panel_off_post(struct samsung_display_driver_data *vdd)
 		vdd->br_info.common_br.finger_mask_hbm_on = false;
 
 	LCD_INFO("[DISPLAY_%d] -\n", vdd->ndx);
+#ifdef CONFIG_SEC_DEBUG
 	SS_XLOG(SS_XLOG_FINISH);
+#endif
 
 	return ret;
 }
@@ -3147,7 +3154,9 @@ static irqreturn_t esd_irq_handler(int irq, void *handle)
 	schedule_work(&conn->status_work.work);
 
 	LCD_INFO("Panel Recovery(ESD, irq%d), Trial Count = %d\n", irq, vdd->panel_recovery_cnt++);
+#ifdef CONFIG_SEC_DEBUG
 	SS_XLOG(vdd->panel_recovery_cnt);
+#endif
 	inc_dpui_u32_field(DPUI_KEY_QCT_RCV_CNT, 1);
 
 	if (vdd->is_factory_mode) {
@@ -3321,7 +3330,9 @@ static void ss_panel_recovery(struct samsung_display_driver_data *vdd)
 		return;
 	}
 	LCD_INFO("Panel Recovery, Trial Count = %d\n", vdd->panel_recovery_cnt++);
+#ifdef CONFIG_SEC_DEBUG
 	SS_XLOG(vdd->panel_recovery_cnt);
+#endif
 	inc_dpui_u32_field(DPUI_KEY_QCT_RCV_CNT, 1);
 
 	esd_irq_enable(false, true, (void *)vdd);
@@ -7394,7 +7405,9 @@ void ss_panel_vrr_switch(struct vrr_info *vrr)
 	if (ss_is_panel_off(vdd) || ss_is_panel_lpm(vdd)) {
 		LCD_ERR("error: panel_state(%d), skip VRR (save VRR state)\n",
 				vdd->panel_state);
+#ifdef CONFIG_SEC_DEBUG
 		SS_XLOG(0xbad, vdd->panel_state);
+#endif
 		vrr->cur_refresh_rate = adjusted_rr;
 		vrr->cur_sot_hs_mode = adjusted_hs;
 		goto brr_done;
@@ -7539,7 +7552,9 @@ brr_done:
 		vdd->panel_func.samsung_vrr_set_te_mod(vdd,
 						vrr->cur_refresh_rate,
 						vrr->cur_sot_hs_mode);
+#ifdef CONFIG_SEC_DEBUG
 		SS_XLOG(vrr->te_mod_on, vrr->te_mod_divider, vrr->te_mod_cnt);
+#endif
 	}
 
 	/* Restore to normal sde core clock boosted up to max mdp clock during VRR.
@@ -7576,7 +7591,9 @@ brr_done:
 		ret = ss_set_normal_sde_core_clk(ddev);
 		if (ret) {
 			LCD_ERR("fail to set normal sde core clock..(%d)\n", ret);
+#ifdef CONFIG_SEC_DEBUG
 			SS_XLOG(ret, 0xbad2);
+#endif
 		}
 	} else {
 		LCD_INFO("consecutive VRR req, keep max sde clk (cur: %d%s, adj: %d%s)\n",
