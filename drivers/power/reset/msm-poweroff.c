@@ -582,7 +582,7 @@ static void msm_restart_prepare(const char *cmd)
 		} else if (!strncmp(cmd, "edl", 3)) {
 			enable_emergency_dload_mode();
 #endif
-#if defined(CONFIG_SEC_ABC)
+#if defined(CONFIG_SEC_ABC) && defined(CONFIG_SEC_DEBUG)
 		} else if (!strncmp(cmd, "user_dram_test", 14) && sec_abc_get_enabled()) {
 			qpnp_pon_set_restart_reason(PON_RESTART_REASON_USER_DRAM_TEST);
 #endif
