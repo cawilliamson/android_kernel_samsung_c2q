@@ -2371,7 +2371,7 @@ void ss_stm_set_cmd(struct samsung_display_driver_data *vdd, struct STM_CMD *cmd
 
 int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 {
-	int lcd_id_cmdline;
+	int __maybe_unused lcd_id_cmdline;
 
 	ss_set_vrr_switch(vdd, false);
 
@@ -2394,7 +2394,7 @@ int ss_panel_on_pre(struct samsung_display_driver_data *vdd)
 
 	if (!ss_panel_attach_get(vdd)) {
 		ss_read_fw_up_debug_partition();
-#endif
+#endif /* CONFIG_SEC_DEBUG */
 #if defined(CONFIG_PANEL_S6TUUM3_AMSA24VU01_WQXGA)
 		BUG_ON(1);
 #endif
