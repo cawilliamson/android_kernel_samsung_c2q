@@ -940,7 +940,7 @@ static int __enable_vblank(struct drm_device *dev, unsigned int pipe)
 
 		if (WARN_ON(!crtc))
 		{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 			SS_XLOG_VSYNC(0x1111);
 #endif
 			return 0;
@@ -948,7 +948,7 @@ static int __enable_vblank(struct drm_device *dev, unsigned int pipe)
 
 		if (crtc->funcs->enable_vblank)
 		{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 			SS_XLOG_VSYNC(0x2222);
 #endif
 			return crtc->funcs->enable_vblank(crtc);
@@ -963,7 +963,7 @@ static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
 	int ret = 0;
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(vblank->enabled);
 #endif
 	assert_spin_locked(&dev->vbl_lock);
@@ -1059,7 +1059,7 @@ static void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
 			vblank_disable_fn(&vblank->disable_timer);
 		else if (!dev->vblank_disable_immediate)
 		{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 			SS_XLOG_VSYNC();
 #endif
 			mod_timer(&vblank->disable_timer,
@@ -1599,13 +1599,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
 	unsigned int pipe_index;
 	unsigned int flags, pipe, high_pipe;
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(0x0);
 #endif
 
 	if (!dev->irq_enabled)
 	{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x1111);
 #endif
 		return -EOPNOTSUPP;
@@ -1613,7 +1613,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
 
 	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
 	{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x2222);
 #endif
 		return -EINVAL;
@@ -1626,7 +1626,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
 			  vblwait->request.type,
 			  (_DRM_VBLANK_TYPES_MASK | _DRM_VBLANK_FLAGS_MASK |
 			   _DRM_VBLANK_HIGH_CRTC_MASK));
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x3333);
 #endif
 		return -EINVAL;
@@ -1656,7 +1656,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
 
 	if (pipe >= dev->num_crtcs)
 	{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x4444);
 #endif
 		return -EINVAL;
@@ -1671,14 +1671,14 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
 	    drm_wait_vblank_is_query(vblwait) &&
 	    READ_ONCE(vblank->enabled)) {
 		drm_wait_vblank_reply(dev, pipe, &vblwait->reply);
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC(0x5555);
 #endif
 		return 0;
 	}
 
 	ret = drm_vblank_get(dev, pipe);
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(0x6666, ret, pipe, dev->num_crtcs);
 #endif
 	if (ret) {
@@ -1760,7 +1760,7 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
 		list_del(&e->base.link);
 		drm_vblank_put(dev, pipe);
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		/* Now timestamp will be registered pending drm event.
 		 * Then, GFX HAL will reads it using drm file.
 		 * -> drm_read() returns timestamp value. 
@@ -1831,7 +1831,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
 
 	if (disable_irq)
 	{
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 		SS_XLOG_VSYNC();
 #endif
 		vblank_disable_fn(&vblank->disable_timer);
