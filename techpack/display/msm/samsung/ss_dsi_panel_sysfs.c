@@ -2387,8 +2387,8 @@ static ssize_t mipi_samsung_mcd_store(struct device *dev,
 	int rddpm, rddsm, errfg;
 #ifdef CONFIG_SEC_DEBUG
 	int dsierror;
-#endif /* CONFIG_SEC_DEBUG */
 	struct dsi_panel *panel;
+#endif /* CONFIG_SEC_DEBUG */
 
 	if (IS_ERR_OR_NULL(vdd)) {
 		LCD_ERR("no vdd");
