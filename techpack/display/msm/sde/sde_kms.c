@@ -291,7 +291,7 @@ static int sde_kms_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc)
 	ret = sde_crtc_vblank(crtc, true);
 	SDE_ATRACE_END("sde_kms_enable_vblank");
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(ret);
 #endif
 	return ret;
@@ -307,7 +307,7 @@ static void sde_kms_disable_vblank(struct msm_kms *kms, struct drm_crtc *crtc)
 	ret = sde_crtc_vblank(crtc, false);
 	SDE_ATRACE_END("sde_kms_disable_vblank");
 
-#if defined(CONFIG_DISPLAY_SAMSUNG) // case 04436106
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG) // case 04436106
 	SS_XLOG_VSYNC(ret);
 #endif
 }
