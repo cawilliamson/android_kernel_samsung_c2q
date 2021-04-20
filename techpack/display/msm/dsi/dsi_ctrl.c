@@ -28,6 +28,10 @@
 #include "sde_trace.h"
 #endif
 
+#ifndef CONFIG_SEC_DEBUG
+#include <linux/sched_clock.h>
+#endif
+
 #define DSI_CTRL_DEFAULT_LABEL "MDSS DSI CTRL"
 
 #define DSI_CTRL_TX_TO_MS     200
