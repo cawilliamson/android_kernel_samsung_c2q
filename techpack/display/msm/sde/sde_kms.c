@@ -855,7 +855,7 @@ static int _sde_kms_release_splash_buffer(struct sde_kms *sde_kms,
 
 	/* leave ramdump memory only if base address matches */
 	if (ramdump_base == mem_addr &&
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(CONFIG_SEC_DEBUG)
 			/* case 1) upload mode: release splash memory except disp_rdump_memory
 			 *         which is used for framebuffer in upload mode bootloader
 			 * case 2) None-upload mode: release whole splash memory
