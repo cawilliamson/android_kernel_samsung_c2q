@@ -7259,7 +7259,9 @@ static void dsi_display_handle_lp_rx_timeout(struct work_struct *work)
 		vdd->panel_recovery_cnt++;
 
 		LCD_INFO("Panel Recovery, Trial Count = %d\n", vdd->panel_recovery_cnt);
+#ifdef CONFIG_SEC_DEBUG
 		SS_XLOG(vdd->panel_recovery_cnt);
+#endif
 		inc_dpui_u32_field(DPUI_KEY_QCT_RCV_CNT, 1);
 
 		return;
