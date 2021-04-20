@@ -29,7 +29,7 @@
 #endif
 
 #ifndef CONFIG_SEC_DEBUG
-#include <linux/sched_clock.h>
+#include <linux/sched/clock.h>
 #endif
 
 #define DSI_CTRL_DEFAULT_LABEL "MDSS DSI CTRL"
