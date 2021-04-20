@@ -94,9 +94,10 @@ Copyright (C) 2012, Samsung Electronics. All rights reserved.
 
 #if defined(CONFIG_SEC_DEBUG)
 #include <linux/sec_debug.h>
-#endif
-
 extern bool enable_pr_debug;
+#else
+bool enable_pr_debug = false;
+#endif
 
 #define LOG_KEYWORD "[SDE]"
 
