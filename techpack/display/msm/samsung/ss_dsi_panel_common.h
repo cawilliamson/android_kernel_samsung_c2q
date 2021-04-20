@@ -110,7 +110,7 @@ extern bool enable_pr_debug;
 #else
 #define LCD_DEBUG(X, ...) 	\
 		do {	\
-			pr_debug("%s %s : "X, LOG_KEYWORD, __func__, ## __VA_ARGS__)
+			pr_debug("%s %s : "X, LOG_KEYWORD, __func__, ## __VA_ARGS__);\
 		} while (0)
 #endif
 #define LCD_INFO(X, ...) pr_info("%s %s : "X, LOG_KEYWORD, __func__, ## __VA_ARGS__)
