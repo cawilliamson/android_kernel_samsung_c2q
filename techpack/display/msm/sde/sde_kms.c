@@ -883,7 +883,7 @@ static int _sde_kms_release_splash_buffer(struct sde_kms *sde_kms,
 	for (pfn_idx = pfn_start; pfn_idx < pfn_end; pfn_idx++)
 		free_reserved_page(pfn_to_page(pfn_idx));
 
-#if defined(CONFIG_DISPLAY_SAMSUNG)
+#if defined(CONFIG_DISPLAY_SAMSUNG) && defined(SEC_DEBUG)
 	SDE_INFO("release splash buffer: addr: %x, size: %x, sec_debug: %d\n",
 			mem_addr, splash_buffer_size, sec_debug_is_enabled());
 #endif
