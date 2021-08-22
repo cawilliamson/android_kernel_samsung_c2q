@@ -642,7 +642,7 @@ int secdp_store_hmd_dev(char *str, size_t len, int num_hmd)
 {
 	struct dp_display_private *dp = g_secdp_priv;
 	struct secdp_sink_dev *hmd_list;
-	struct secdp_sink_dev hmd_bak[MAX_NUM_HMD] = {{0,}};
+	struct secdp_sink_dev hmd_bak[MAX_NUM_HMD] = {0,};
 	bool backup = false;
 	char *tok;
 	int  i, j, ret = 0, rmdr;
@@ -4433,7 +4433,8 @@ static enum mon_aspect_ratio_t secdp_get_aspect_ratio(struct drm_display_mode *m
 		(hdisplay == 1440 && vdisplay == 900)  ||
 		(hdisplay == 1280 && vdisplay == 800))
 		aspect_ratio = MON_RATIO_16_10;
-	else if ((hdisplay == 3440 && vdisplay == 1440) ||
+	else if ((hdisplay == 3840 && vdisplay == 1600) ||
+		(hdisplay == 3440 && vdisplay == 1440) ||
 		(hdisplay == 2560 && vdisplay == 1080))
 		aspect_ratio = MON_RATIO_21_9;
 	else if ((hdisplay == 5120 && vdisplay == 1440) ||
