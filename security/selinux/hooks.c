@@ -93,6 +93,10 @@
 #include <linux/delay.h>
 // ] SEC_SELINUX_PORTING_COMMON
 
+#ifdef CONFIG_USERLAND_WORKER
+#include <linux/userland.h>
+#endif /* CONFIG_USERLAND_WORKER */
+
 #include "avc.h"
 #include "objsec.h"
 #include "netif.h"
@@ -104,6 +108,10 @@
 #include "audit.h"
 #include "avc_ss.h"
 
+#ifdef CONFIG_USERLAND_WORKER
+#include "include/security.h"
+#include "include/avc_ss_reset.h"
+#endif /* CONFIG_USERLAND_WORKER */
 
 struct selinux_state selinux_state __rticdata;
 
@@ -7509,7 +7517,7 @@ static __init int selinux_init(void)
 #ifdef CONFIG_SECURITY_SELINUX_ALWAYS_ENFORCE
 		selinux_enforcing_boot = 1;
 #elif defined(CONFIG_SECURITY_SELINUX_ALWAYS_PERMISSIVE)
-￼		selinux_enforcing_boot = 0;
+		selinux_enforcing_boot = 0;
 #endif
 // ] SEC_SELINUX_PORTING_COMMON
 
@@ -7534,6 +7542,25 @@ void selinux_complete_init(void)
 	pr_debug("SELinux:  Setting up existing superblocks.\n");
 	iterate_supers(delayed_superblock_init, NULL);
 }
+
+#ifdef CONFIG_USERLAND_WORKER
+int get_enforce_value(void)
+{
+	return enforcing_enabled(&selinux_state);
+}
+
+void set_selinux(int value)
+{
+        enforcing_set(&selinux_state, value);
+        if (value)
+                avc_ss_reset(selinux_state.avc, 0);
+        selnl_notify_setenforce(value);
+        selinux_status_update_setenforce(&selinux_state, value);
+        if (!value)
+                call_lsm_notifier(LSM_POLICY_CHANGE, NULL);
+
+}
+#endif /* CONFIG_USERLAND_WORKER */
 
 /* SELinux requires early initialization in order to label
    all processes and objects when they are created. */
