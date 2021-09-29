@@ -8,7 +8,7 @@ set -e
 rm -f binaries/__hosts_*
 
 # fetch latest AdAway hosts
-curl -L -s 'https://adaway.org/hosts.txt' \
+curl -k -L -s 'https://adaway.org/hosts.txt' \
 	| grep -v '#' \
 	| grep -v 'localhost' \
 	| sed 's/127.0.0.1/0.0.0.0/g' \
@@ -17,7 +17,7 @@ curl -L -s 'https://adaway.org/hosts.txt' \
 	> binaries/__hosts_k.tmp
 
 # fetch latest StevenBlack hosts
-curl -L -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts' \
+curl -k -L -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts' \
 	| grep -v '#' \
         | grep -v 'localhost' \
 	| sed 's/127.0.0.1/0.0.0.0/g' \
@@ -26,7 +26,7 @@ curl -L -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts' \
 	>> binaries/__hosts_k.tmp
 
 # fetch latest winhelp2002 hosts
-curl -L -s 'https://winhelp2002.mvps.org/hosts.txt' \
+curl -k -L -s 'https://winhelp2002.mvps.org/hosts.txt' \
         | grep -v '#' \
         | grep -v 'localhost' \
         | sed 's/127.0.0.1/0.0.0.0/g' \
@@ -35,7 +35,7 @@ curl -L -s 'https://winhelp2002.mvps.org/hosts.txt' \
         >> binaries/__hosts_k.tmp
 
 # fetch latest yoyo hosts
-curl -L -s 'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext' \
+curl -k -L -s 'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext' \
 	| grep -v '#' \
 	| grep -v 'localhost' \
 	| sed 's/127.0.0.1/0.0.0.0/g' \
@@ -62,4 +62,3 @@ gcc binaries/bin2hex.c -o binaries/bin2hex
 # encode hosts_* to hex
 ./binaries/bin2hex --i binaries/__hosts_k.zip --o binaries/__hosts_k_zip.i
 ./binaries/bin2hex --i binaries/__hosts_o.zip --o binaries/__hosts_o_zip.i
-
