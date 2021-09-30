@@ -341,4 +341,12 @@ config FS_HPB
 	bool "Support HPB on Filesystem"
 	default n
 
+config CONFIG_PROC_MAGISK_HIDE
+	bool "Prevent Magisk mount leakage"
+	default n
+	help
+	  Prevent Magisk mount leakage and root detection by apps
+	  looking for IsolatedService mounts in order to detect
+	  rooted devices.
+
 endmenu
